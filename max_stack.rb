@@ -8,15 +8,18 @@ class MaxStack
 
   def initialize
     @list = LinkedList.new
+    @current_max = 0
   end
 
   def push(item)
     @list.unshift(item)
+    max
   end
 
   def pop
     fail UnderflowError, "Stack is empty" if empty?
     @list.shift
+    max
   end
 
   def peek
@@ -34,12 +37,9 @@ class MaxStack
   # Returns the largest item on the stack
   # O(1) time
   def max
-    max_so_far = peek
-    @list.each do |item|
-      if item > max_so_far
-        max_so_far = item
-      end
+    if peek > @current_max
+      @current_max = peek
     end
-    max_so_far
+    @current_max
   end
 end
