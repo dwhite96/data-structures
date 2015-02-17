@@ -11,15 +11,15 @@ class MaxStack
     @current_max = 0
   end
 
+  # Places item on top of stack if greater than current max
+  # O(1) time
   def push(item)
-    @list.unshift(item)
-    max
+    @list.unshift(item) if item > @current_max
   end
 
   def pop
     fail UnderflowError, "Stack is empty" if empty?
     @list.shift
-    max
   end
 
   def peek
@@ -37,9 +37,6 @@ class MaxStack
   # Returns the largest item on the stack
   # O(1) time
   def max
-    if peek > @current_max
-      @current_max = peek
-    end
-    @current_max
+    empty? ? @current_max = 0 : @current_max = peek
   end
 end
