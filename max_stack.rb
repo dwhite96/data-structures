@@ -3,33 +3,43 @@ require_relative 'linked_list'
 # Implement a "max stack" - a stack that has a contant-time
 # "maximum" operations.
 
-class MaxStack < Stack
+class MaxStack
+  class UnderflowError < StandardError; end
+
   def initialize
+    @list = LinkedList.new
   end
 
-  # Places +item+ on the top of the stack
   def push(item)
+    @list.unshift(item)
   end
 
-  # Removes the item on the top of the stack and returns it.
-  # Raises an error if the stack is empty (called a "stack underflow")
   def pop
+    fail UnderflowError, "Stack is empty" if empty?
+    @list.shift
   end
 
-  # Return the item on the top of the stack without removing it
   def peek
+    @list.head.value
   end
 
-  # Return true if the stack is empty and false otherwise
   def empty?
+    @list.empty?
   end
 
-  # Return the number of items on the stack
   def size
+    @list.length
   end
 
   # Returns the largest item on the stack
   # O(1) time
   def max
+    max_so_far = peek
+    @list.each do |item|
+      if item > max_so_far
+        max_so_far = item
+      end
+    end
+    max_so_far
   end
 end
