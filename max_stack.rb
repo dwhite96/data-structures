@@ -12,24 +12,24 @@ class MaxStack
   end
 
   def push(item)
-    value = {}
+    value = []
     if item > @current_max
       @current_max = item
-      value[@current_max] = @current_max
+      value << @current_max << @current_max
       @list.unshift(value)
     else
-      value[item] = @current_max
+      value << item << @current_max
       @list.unshift(value)
     end
   end
 
   def pop
     fail UnderflowError, "Stack is empty" if empty?
-    @list.shift.keys[0]
+    @list.shift.first
   end
 
   def peek
-    empty? ? @list.head.value : @list.head.value.keys[0]
+    empty? ? @list.head.value : @list.head.value.first
   end
 
   def empty?
@@ -46,7 +46,7 @@ class MaxStack
     if empty?
       @current_max = 0
     else
-      @current_max = @list.head.value.values[0]
+      @current_max = @list.head.value.last
     end
   end
 end
