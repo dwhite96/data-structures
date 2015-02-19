@@ -41,7 +41,7 @@ class MinStack
     @list.length
   end
 
-  # Returns the largest item on the stack
+  # Returns the smallest item on the stack
   # O(1) time
   def min
     if empty?
