@@ -1,3 +1,5 @@
+require_relative "linked_list"
+
 # Implement a basic (recursive) Binary Tree
 
 def BinaryTree(value)
@@ -16,6 +18,17 @@ class BinaryTree
   attr_accessor :value, :left, :right
 
   def initialize(value = nil)
+    @value = value
+    @left = LinkedList.new
+    @right = LinkedList.new
+  end
+
+  def add_left(value)
+    @left.unshift(BinaryTree(value))
+  end
+
+  def add_right(value)
+    @right.unshift(BinaryTree(value))
   end
 
   def each(&block)
