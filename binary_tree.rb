@@ -1,11 +1,11 @@
-require_relative "linked_list"
-
 # Implement a basic (recursive) Binary Tree
 
 def BinaryTree(value)
   case value
   when BinaryTree
     value
+  when nil
+    self.empty
   else
     BinaryTree.new(value)
   end
@@ -17,18 +17,16 @@ end
 class BinaryTree
   attr_accessor :value, :left, :right
 
-  def initialize(value = nil)
+  def self.empty(value = :empty, left = :empty, right = :empty)
+    self.value = :empty
+    self.left = :empty
+    self.right = :empty
+  end
+
+  def initialize(value = nil, left = nil, right = nil)
     @value = value
-    @left = LinkedList.new
-    @right = LinkedList.new
-  end
-
-  def add_left(value)
-    @left.unshift(BinaryTree(value))
-  end
-
-  def add_right(value)
-    @right.unshift(BinaryTree(value))
+    @left = BinaryTree.new(left)
+    @right = BinaryTree.new(right)
   end
 
   def each(&block)
