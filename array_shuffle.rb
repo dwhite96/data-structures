@@ -7,6 +7,7 @@
 
 # Modern Fisher-Yate's Shuffle Algorithm (Richard Durstenfeld's version)
 
+
 class ArrayShuffle
   def shuffle(list)
     n = list.length
