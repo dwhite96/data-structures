@@ -7,18 +7,12 @@
 
 # Modern Fisher-Yate's Shuffle Algorithm (Richard Durstenfeld's version)
 
-
 class ArrayShuffle
   def shuffle(list)
     n = list.length
-    n.downto(1) do |i|
-      i -= 1
+    (n - 1).downto(0) do |i|
       j = rand(0..i)
-      if list[0..i].include?(j + 1)  # Not sure how this may affect arrays already shuffled
-        list[j], list[i] = list[i], list[j]
-      else
-        next
-      end
+      list[j], list[i] = list[i], list[j]
     end
     list
   end
