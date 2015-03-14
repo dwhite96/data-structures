@@ -1,5 +1,3 @@
-require "pp"
-
 require_relative "binary_tree"
 
 # Implement a binary search tree.
@@ -12,26 +10,25 @@ require_relative "binary_tree"
 
 class BinarySearchTree < BinaryTree
   def include?(value)
-    self.each do |node|
-      if node == value
-        return true
-      else
-        next
-      end
+    return true if value == @value
+    if value < @value
+      return false if @left.empty?
+      @left.include?(value)
+    elsif value > @value
+      return false if @right.empty?
+      @right.include?(value)
     end
   end
 
   def insert(value)
-    if @value == :empty
-      @value = value
-    elsif value < @value
-      if @left.class == EmptyTree
+    if value < @value
+      if @left.empty?
         @left = BinarySearchTree.new(value)
       else
         @left.insert(value)
       end
-    else value > @value
-      if @right.class == EmptyTree
+    elsif value > @value
+      if @right.empty?
         @right = BinarySearchTree.new(value)
       else
         @right.insert(value)
@@ -41,23 +38,36 @@ class BinarySearchTree < BinaryTree
     self
   end
 
+  # Look for max value that is smaller than value to be removed and replace
+  #   removed value with that max value. Max tree should be replaced with
+  #   EmptyTree if leaf or with left node if that node holds a value.
+
+  def remove(value)
+    if value == @value
+      @value = self.left.max.value  # Mutates existing object
+      self.left.max = EmptyTree.new  # This doesn't work
+    elsif value < @value
+      return false if @left.empty? # Need to change this line to raise error
+      @left.remove(value)
+    elsif value > @value
+      return false if @right.empty?
+      @right.remove(value)
+    end
+
+    self
+  end
+
   def empty?
-    self.value.nil?
+    false
+  end
+
+  def min
+    return self if @left.empty?
+    @left.max
+  end
+
+  def max
+    return self if @right.empty?
+    @right.max
   end
 end
-
-b = BinarySearchTree.new(9)
-b.insert(17)
-b.insert(54)
-b.insert(32)
-b.insert(13)
-b.insert(4)
-b.insert(5)
-b.insert(5)
-b.insert(78)
-b.insert(29)
-
-PP.pp(b)
-
-p b.include?(32)
-p b.include?(6)
