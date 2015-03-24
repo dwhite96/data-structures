@@ -1,7 +1,7 @@
 require_relative "stack"
 
 # Implement a "min-max stack" - a stack that has contant-time
-# "maximum" _and_ "minimum" operations.
+# "maximum" _and_ "minimum" operations
 
 class MinMaxStack < Stack
   def push(item)
