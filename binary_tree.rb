@@ -1,5 +1,3 @@
-require "pp"
-
 # Implement a basic (recursive) Binary Tree
 
 def BinaryTree(*args)
@@ -29,7 +27,7 @@ class BinaryTree
     EmptyTree.new
   end
 
-  def initialize(value = :empty, left = :empty, right = :empty)
+  def initialize(value, left = :empty, right = :empty)
     @value = value
     @left = BinaryTree.build(left)
     @right = BinaryTree.build(right)
@@ -76,23 +74,9 @@ class EmptyTree < BinaryTree
   def in_order(&block);   end
   def post_order(&block); end
 
+  def insert(value); end
+
   def empty?
     true
   end
 end
-
-b = BinaryTree(9)
-b.left = BinaryTree(4)
-b.left.left = BinaryTree(54)
-b.left.right = BinaryTree(32)
-
-b.right = BinaryTree("apples") # This is to ensure it works with different types
-b.right.left = BinaryTree(13)
-b.right.left.left = BinaryTree(5)
-b.right.left.left.left = BinaryTree(5)
-b.right.right = BinaryTree(78)
-b.right.right.right = BinaryTree(29)
-
-p PP.pp(b)
-p b.post_order { |i| puts i }
-p b.max
