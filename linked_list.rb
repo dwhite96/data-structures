@@ -41,7 +41,6 @@ class LinkedList
 
     self
   end
-
 end
 
 # This allows us to call LinkedListNode(value) and is different
