@@ -2,10 +2,11 @@ class LinkedList
   # By implementing LinkedList#each, we can include Enumerable
   include Enumerable
 
-  attr_reader :head, :length
+  attr_reader :head, :tail, :length
 
   def initialize
     @head = LinkedListNode.new(nil)
+    @tail = @head
     @length = 0
   end
 
@@ -18,10 +19,25 @@ class LinkedList
   end
 
   # O(1) time
+  def append(value)
+    if empty?
+      @head = @head.insert_before(value)
+      @tail = @head
+    elsif @length == 1
+      @tail = @head.insert_after(value)
+    else
+      @tail = @tail.insert_after(value)
+    end
+    @length += 1
+
+    self
+  end
+
+  # O(1) time
   def shift
     result = @head.value
     @head = LinkedListNode(@head.next)
-    @length -= 1
+    @length = [length - 1, 0].max
 
     result
   end
