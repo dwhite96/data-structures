@@ -19,21 +19,6 @@ class LinkedList
   end
 
   # O(1) time
-  def append(value)
-    if empty?
-      @head = @head.insert_before(value)
-      @tail = @head
-    elsif @length == 1
-      @tail = @head.insert_after(value)
-    else
-      @tail = @tail.insert_after(value)
-    end
-    @length += 1
-
-    self
-  end
-
-  # O(1) time
   def shift
     result = @head.value
     @head = LinkedListNode(@head.next)
