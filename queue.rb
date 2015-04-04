@@ -5,6 +5,21 @@ require_relative 'linked_list'
 #   2. You'll need to modify the LinkedList to achieve constant
 #      time enqueue and dequeue operations.
 
+class LinkedList
+  # O(1) time
+  def append(value)
+    if empty?
+      @head = @head.insert_before(value)
+      @tail = @head
+    else
+      @tail = @tail.insert_after(value)
+    end
+    @length += 1
+
+    self
+  end
+end
+
 class Queue
   class UnderflowError < StandardError; end
 
