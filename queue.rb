@@ -1,4 +1,4 @@
-require_relative 'linked_list'
+require_relative "linked_list"
 # Implement a Queue using a linked list
 # Note:
 #   1. All operations should take O(1) time
@@ -22,6 +22,8 @@ end
 
 class Queue
   class UnderflowError < StandardError; end
+
+  attr_reader :list
 
   def initialize
     @list = LinkedList.new
