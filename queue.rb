@@ -6,6 +6,14 @@ require_relative "linked_list"
 #      time enqueue and dequeue operations.
 
 class LinkedList
+  attr_reader :head, :tail, :length
+
+  def initialize
+    @head = LinkedListNode.new(nil)
+    @tail = @head
+    @length = 0
+  end
+
   # O(1) time
   def append(value)
     if empty?

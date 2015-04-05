@@ -2,11 +2,10 @@ class LinkedList
   # By implementing LinkedList#each, we can include Enumerable
   include Enumerable
 
-  attr_reader :head, :tail, :length
+  attr_reader :head, :length
 
   def initialize
     @head = LinkedListNode.new(nil)
-    @tail = @head
     @length = 0
   end
 
