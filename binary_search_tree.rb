@@ -119,6 +119,10 @@ class EmptyBinarySearchTree < BinarySearchTree
     @right = :empty
   end
 
+  def pre_order(&block);  end
+  def in_order(&block);   end
+  def post_order(&block); end
+
   def min; end
 
   def max; end
