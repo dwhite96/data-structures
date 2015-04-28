@@ -13,6 +13,7 @@ end
 # is also a Tree and can have any number of children.
 class Tree
   attr_reader :value, :children
+
   def initialize(value)
     @value    = value
     @children = LinkedList.new
@@ -25,5 +26,24 @@ class Tree
   end
 
   def each(&block)
+    node = self.children.head.value
+
+    until node.nil?
+      block.call(node.value)
+      node = node.children.head.value
+    end
+
+    self
   end
+
+  # def each(&block)
+  #   node = self.head
+
+  #   until node.empty?
+  #     block.call(node.value)
+  #     node = node.next
+  #   end
+
+  #   self
+  # end
 end
