@@ -15,20 +15,17 @@ class Trie
   end
 
   # O(m) time
-  def find_prefix(value)
-    value = value.scan(/\w/) # Split string into array without spaces
-    result = []
-    value.each do |char|
-      self.root.insert_char(char)
-    end
+  # def find(string)
+  #   result = string.scan(/\w/) # Split string into array without spaces
+  #   self.insert(result)
 
-    result
-  end
+  #   result
+  # end
 
   # O(m) time
   def insert(string)
     string = string.scan(/\w/) # Split string into array without spaces
-    self.root.check_base_tree(string)
+    self.root.insert_tree(string)
   end
 
   def empty?
@@ -37,19 +34,6 @@ class Trie
 end
 
 class Tree
-  def check_base_tree(string)
-    node = self
-
-    return self if string.empty?
-
-    if node.empty?
-      node.insert_value(string.first)
-    elsif node.children.head.value.value != string.first
-      node.children.add_next(string)
-    end
-    node.children.traverse_tree(string)
-  end
-
   # Insert entire string or appropriate suffix of string in trie.
   def insert_tree(string)
     node = self
@@ -57,19 +41,23 @@ class Tree
     return self if string.empty?
 
     if node.empty?
-      string.shift
-      return self if string.empty?
-      node.insert_value(string.first)
-    elsif node.value == string.first
+      node.insert_value(string.shift) # Create new tree as child
+    elsif node.child.value != string.first
+      node.children.add_next(string)
+    elsif node.child.value == string.first
       string.shift
     end
-    node.check_base_tree(string)
+    node.child.insert_tree(string)
 
     self
   end
 
   def insert_value(char)
     self.add_child(char)
+  end
+
+  def child
+    children.head.value
   end
 
   def empty?
@@ -82,10 +70,6 @@ class LinkedList
     # @length += 1 unless self.head.next.value.value == string.first
     self.head.add_next(string)
   end
-
-  def traverse_tree(string)
-    self.head.value.insert_tree(string)
-  end
 end
 
 class LinkedListNode
@@ -94,13 +78,12 @@ class LinkedListNode
 
     if node.next.empty?
       node.insert_after(Tree(string.shift)) # Create new tree as next
-      node.next.value.check_base_tree(string)
     elsif node.next.value.value != string.first
       node.next.add_next(string)
     elsif node.next.value.value == string.first
       string.shift
-      node.next.value.check_base_tree(string)
     end
+    node.next.value.insert_tree(string)
 
     self
   end
