@@ -7,11 +7,40 @@ describe Trie do
     end
   end
 
+  describe "#find" do
+    let(:trie) { Trie.new }
+
+    context "when the trie is non-empty" do
+      before {
+        trie.insert("apple");
+        trie.insert("big");
+        trie.insert("cat");
+        trie.insert("candle")
+      }
+      # before { trie.insert("apple") }
+
+      it "finds all words in trie prefixed with input string" do
+        expect(trie.find("a")).to eq("apple")
+      end
+
+      it "finds all words in trie prefixed with input string" do
+        expect(trie.find("app")).to eq("apple")
+      end
+
+      it "finds all words in trie prefixed with input string" do
+        expect(trie.find("b")).to eq("big")
+      end
+
+      it "finds all words in trie prefixed with input string" do
+        expect(trie.find("ca")).to eq("cat", "candle")
+      end
+    end
+  end
+
   describe "#insert" do
     let(:trie) { Trie.new }
 
     context "when the trie is empty" do
-      let(:trie) { Trie.new }
 
       it "flags the trie as non-empty" do
         expect {
@@ -29,7 +58,7 @@ describe Trie do
 
       it "inserts first word into the trie" do
         expect {
-          trie.insert("apples")
+          trie.insert("apple")
         }.to change { trie.root.children.head.value }.from(nil).to be_a Tree
 
         expect(
@@ -181,18 +210,4 @@ describe Trie do
       end
     end
   end
-
-  # describe "#find" do
-  #   let(:trie) { Trie.new }
-
-  #   context "when the trie is non-empty" do
-  #     before { trie.insert("a") }
-
-  #     it "looks for each character in input string" do
-  #       expect {
-  #         trie.find("a")
-  #       }.to eq("a")
-  #     end
-  #   end
-  # end
 end
