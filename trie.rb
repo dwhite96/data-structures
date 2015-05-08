@@ -14,7 +14,7 @@ class Trie
   end
 
   # O(m) time
-  def find(string)
+  def find(string) # Inserts if prefix doesn't exist
     result = string.scan(/\w/) # Split string into array without spaces
     self.insert(string).find_suffixes(result)
   end
@@ -33,16 +33,13 @@ end
 class Tree
   def find_suffixes(string)
     node = self
-    result = string
-
     if node.empty? # Signals end of word
       return string.join
-    elsif node.children.head.next.empty? # Does node branch to new word?
+    elsif node.children.head.next.empty?
       string.push(node.child.value)
-      p string
       node.child.find_suffixes(string)
     else
-      result.concat(node.children.find_next(string))
+      node.children.find_next(string)
     end
   end
 
@@ -53,16 +50,26 @@ class Tree
 
     if node.empty?
       node.insert_value(string.shift) # Create new tree as child
+      node.child.insert_tree(string)
     elsif node.child.value != string.first
-      node = node.children.add_next(string)
+      node = node.check_next(string)
       string.shift
       node.insert_tree(string)
-      return node if string.empty?
     elsif node.child.value == string.first
       string.shift
+      node.child.insert_tree(string)
     end
+  end
 
-    node.child.insert_tree(string)
+  def check_next(string)
+    node = self.children.head.check_next(string.first)
+
+    if node == true
+      self.insert_value(string.first) # Unshift linked list
+      self.child
+    else
+      node
+    end
   end
 
   def insert_value(char)
@@ -79,31 +86,28 @@ class Tree
 end
 
 class LinkedList
-  def add_next(string)
-    self.head.add_next(string)
-  end
-
-  # Traverse linked list for retrieval(breadth-first search)
-  def find_next(next_result)
+  # Traverse linked list for retrieval (depth-first search)
+  def find_next(string)
     result = []
     self.each do |node|
-      result.push(node.find_suffixes(next_result))
+      next_word = []
+      next_word.concat(string).push(node.value) # Push search prefix and first node value
+      result.push(node.find_suffixes(next_word)) # Push rest of word
     end
     result
   end
 end
 
 class LinkedListNode
-  # Traverse linked list for insertion(breadth-first search)
-  def add_next(string)
+  # Traverse linked list for insertion (breadth-first search)
+  def check_next(char)
     node = self
 
     if node.next.empty?
-      node.insert_after(Tree(string.first)) # Create new tree as next
-      node.next.value
-    elsif node.next.value.value != string.first
-      node.next.add_next(string)
-    elsif node.next.value.value == string.first
+      true
+    elsif node.next.value.value != char
+      node.next.check_next(char)
+    elsif node.next.value.value == char
       node.next.value
     end
   end

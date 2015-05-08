@@ -17,22 +17,21 @@ describe Trie do
         trie.insert("cat");
         trie.insert("candle")
       }
-      # before { trie.insert("apple") }
 
-      it "finds all words in trie prefixed with input string" do
+      it "finds all words in trie prefixed with input string 'a'" do
         expect(trie.find("a")).to eq("apple")
       end
 
-      it "finds all words in trie prefixed with input string" do
+      it "finds all words in trie prefixed with input string 'app'" do
         expect(trie.find("app")).to eq("apple")
       end
 
-      it "finds all words in trie prefixed with input string" do
+      it "finds all words in trie prefixed with input string 'b'" do
         expect(trie.find("b")).to eq("big")
       end
 
-      it "finds all words in trie prefixed with input string" do
-        expect(trie.find("ca")).to eq("cat", "candle")
+      it "finds all words in trie prefixed with input string 'ca'" do
+        expect(trie.find("ca")).to eq(["candle", "cat"])
       end
     end
   end
@@ -87,7 +86,8 @@ describe Trie do
           trie.insert("b")
         }.to change { trie.root.children.head.next.value }.from(nil).to be_a Tree
 
-        expect(trie.root.children.head.next.value.value).to eq("b")
+        expect(trie.root.children.head.value.value).to eq("b")
+        expect(trie.root.children.head.next.value.value).to eq("a")
 
         expect(trie.root.value).to eq(nil) # Root tree value should always be nil
       end
@@ -101,7 +101,9 @@ describe Trie do
           trie.insert("c")
         }.to change { trie.root.children.head.next.next.value }.from(nil).to be_a Tree
 
-        expect(trie.root.children.head.next.next.value.value).to eq("c")
+        expect(trie.root.children.head.value.value).to eq("c")
+        expect(trie.root.children.head.next.value.value).to eq("b")
+        expect(trie.root.children.head.next.next.value.value).to eq("a")
       end
     end
 
@@ -138,13 +140,13 @@ describe Trie do
         }.to change { trie.root.children.head.next.value }.from(nil).to be_a Tree
 
         expect(
-          trie.root.children.head.next.value.value
+          trie.root.children.head.value.value
         ).to eq("b")
         expect(
-          trie.root.children.head.next.value.children.head.value.value
+          trie.root.children.head.value.children.head.value.value
         ).to eq("i")
         expect(
-          trie.root.children.head.next.value.children.head.value.children.head.value.value
+          trie.root.children.head.value.children.head.value.children.head.value.value
         ).to eq("g")
       end
     end
@@ -155,7 +157,9 @@ describe Trie do
       it "inserts third word into the trie" do
         expect {
           trie.insert("big")
-        }.to change { trie.root.children.head.next.value.children.head.value }.from(nil).to be_a Tree
+        }.to change {
+            trie.root.children.head.next.value.children.head.value
+          }.from(nil).to be_a Tree
 
         expect(
           trie.root.children.head.next.value.value
@@ -175,16 +179,18 @@ describe Trie do
       it "inserts third word into the trie" do
         expect {
           trie.insert("cat")
-        }.to change { trie.root.children.head.next.next.value.children.head.value }.from(nil).to be_a Tree
+        }.to change {
+            trie.root.children.head.value.children.head.value
+          }.from(nil).to be_a Tree
 
         expect(
-          trie.root.children.head.next.next.value.value
+          trie.root.children.head.value.value
         ).to eq("c")
         expect(
-          trie.root.children.head.next.next.value.children.head.value.value
+          trie.root.children.head.value.children.head.value.value
         ).to eq("a")
         expect(
-          trie.root.children.head.next.next.value.children.head.value.children.head.value.value
+          trie.root.children.head.value.children.head.value.children.head.value.value
         ).to eq("t")
       end
 
@@ -202,11 +208,14 @@ describe Trie do
           trie.root.children.head.next.value.children.head.value.value
         ).to eq("i")
         expect(
-          trie.root.children.head.next.value.children.head.value.children.head.next.value.value
+          trie.root.children.head.next.value.children.head.value.children.head.value.value
         ).to eq("r")
         expect(
-          trie.root.children.head.next.value.children.head.value.children.head.next.value.children.head.value.value
+          trie.root.children.head.next.value.children.head.value.children.head.value.children.head.value.value
         ).to eq("d")
+        expect(
+          trie.root.children.head.next.value.children.head.value.children.head.next.value.value
+        ).to eq("g")
       end
     end
   end
