@@ -1,0 +1,33 @@
+#!/usr/bin/env ruby
+
+# lib = File.expand_path("../lib", __FILE__)
+# $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
+# This adds the "lib" directory to the library path, so we can type
+#
+#     require "whatever"
+#
+# instead of
+#
+#     require "./lib/whatever"
+#
+
+require_relative "trie"
+
+trie = Trie.new
+
+loop do
+  print "text> "
+  input = gets.chomp
+
+  case input
+  when "exit"
+    puts "Bye bye!"
+    exit
+  else
+    begin
+      puts trie.find(input)
+    rescue StandardError
+      puts "Error with text input: #{input.inspect}"
+    end
+  end
+end
