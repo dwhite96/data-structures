@@ -12,6 +12,8 @@ class StackQueue
 
   def enqueue(item)
     @stack_1.push(item)
+
+    self
   end
 
   def dequeue
