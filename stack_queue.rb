@@ -1,5 +1,7 @@
 require_relative "stack"
 
+# Implement a queue using two stacks
+
 class StackQueue
   class UnderflowError < StandardError; end
 
